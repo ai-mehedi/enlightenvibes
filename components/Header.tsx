@@ -20,7 +20,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white relative shadow-sm py-2 z-50">
+    <header className="bg-white relative shadow-sm py-2 z-50 sticky top-0">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
         <Link href="/">
           <Image src="/logo.png" alt="Logo" width={200} height={100} />
