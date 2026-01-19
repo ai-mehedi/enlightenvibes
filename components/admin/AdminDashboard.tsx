@@ -105,10 +105,31 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                 <CardDescription>Update hero section</CardDescription>
               </CardHeader>
             </Card>
-            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+            <Card
+              className="cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => router.push("/admin/team")}
+            >
               <CardHeader>
-                <CardTitle className="text-base">Settings</CardTitle>
-                <CardDescription>Site configuration</CardDescription>
+                <CardTitle className="text-base">Team Members</CardTitle>
+                <CardDescription>Manage team section</CardDescription>
+              </CardHeader>
+            </Card>
+            <Card
+              className="cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => router.push("/admin/projects")}
+            >
+              <CardHeader>
+                <CardTitle className="text-base">Projects</CardTitle>
+                <CardDescription>Manage portfolio</CardDescription>
+              </CardHeader>
+            </Card>
+            <Card
+              className="cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => router.push("/admin/testimonials")}
+            >
+              <CardHeader>
+                <CardTitle className="text-base">Testimonials</CardTitle>
+                <CardDescription>Manage client reviews</CardDescription>
               </CardHeader>
             </Card>
           </div>

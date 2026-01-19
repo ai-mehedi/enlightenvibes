@@ -1,0 +1,51 @@
+import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { teamMembers } from "@/lib/db/schema";
+import { asc } from "drizzle-orm";
+import { getAdminSession } from "@/lib/auth";
+
+// GET all team members (admin)
+export async function GET() {
+  const session = await getAdminSession();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const members = await db
+      .select()
+      .from(teamMembers)
+      .orderBy(asc(teamMembers.order));
+    return NextResponse.json(members);
+  } catch (error) {
+    console.error("Error fetching team members:", error);
+    return NextResponse.json({ error: "Failed to fetch team members" }, { status: 500 });
+  }
+}
+
+// POST create new team member
+export async function POST(request: Request) {
+  const session = await getAdminSession();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const body = await request.json();
+    const { name, role, description, image, order, active } = body;
+
+    const result = await db.insert(teamMembers).values({
+      name,
+      role,
+      description,
+      image: image || null,
+      order: order || 0,
+      active: active !== undefined ? active : true,
+    });
+
+    return NextResponse.json({ success: true, id: result.lastInsertRowid });
+  } catch (error) {
+    console.error("Error creating team member:", error);
+    return NextResponse.json({ error: "Failed to create team member" }, { status: 500 });
+  }
+}
