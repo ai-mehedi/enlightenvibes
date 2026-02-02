@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Send, Clock } from "lucide-react";
+import { Linkedin, Facebook, Youtube } from "lucide-react";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
-    subject: "",
     message: "",
   });
   const [sending, setSending] = useState(false);
@@ -18,245 +16,158 @@ export default function Contact() {
     e.preventDefault();
     setSending(true);
 
-    // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setSending(false);
     setSent(true);
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    setFormData({ name: "", email: "", message: "" });
 
     setTimeout(() => setSent(false), 5000);
   };
 
   return (
-    <section id="contact" className="py-16 md:py-24 bg-gray-50">
+    <section id="contact" className="py-16 md:py-20 bg-[#2a2a2a]">
       <div className="container mx-auto px-4">
         {/* Heading */}
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 tracking-wide">
-          <span className="text-gray-900">GET IN </span>
-          <span className="text-[#b8860b]">TOUCH</span>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-3 tracking-wide gradient-text-animate">
+          CONTACT
         </h2>
 
         {/* Subtitle */}
-        <p className="text-center text-gray-500 tracking-widest text-xs mb-12">
-          WE&apos;D LOVE TO HEAR FROM YOU
+        <p className="text-center tracking-widest text-xs mb-12 uppercase font-bold text-gray-400">
+          EMAIL, MESSAGE, OR CALL US
         </p>
 
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-            {/* Contact Info */}
-            <div className="space-y-6">
-              {/* Address */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#b8860b]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-5 h-5 text-[#b8860b]" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Our Office</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                      House #12, Road #5, Block-A<br />
-                      Banani, Dhaka-1213<br />
-                      Bangladesh
-                    </p>
-                  </div>
-                </div>
+        {sent && (
+          <div className="max-w-5xl mx-auto mb-6 p-4 bg-green-900/30 border border-green-700 text-green-400 text-sm text-center">
+            Thank you for your message! We&apos;ll get back to you soon.
+          </div>
+        )}
+
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+            {/* Left - Contact Info */}
+            <div className="text-center text-gray-300 space-y-4">
+              <p className="text-sm tracking-wider">
+                <span className="text-gray-300">ENLIGHTEN</span>{" "}
+                <span className="border-l border-gray-500 pl-2 font-bold text-white">VIBES</span>
+              </p>
+
+              <div className="text-sm leading-relaxed space-y-1">
+                <p>6 Road-3, Sector 05</p>
+                <p>Uttara, Dhaka-1230, Bangladesh.</p>
+                <p>Tel: 01711-563222</p>
+                <p>Email: enlightenvibes@gmail.com</p>
               </div>
 
-              {/* Phone */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#b8860b]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-5 h-5 text-[#b8860b]" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                    <p className="text-sm text-gray-600">
-                      <a href="tel:+8801700000000" className="hover:text-[#b8860b] transition-colors">
-                        +880 1700-000000
-                      </a>
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      <a href="tel:+8801800000000" className="hover:text-[#b8860b] transition-colors">
-                        +880 1800-000000
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#b8860b]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-5 h-5 text-[#b8860b]" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-sm text-gray-600">
-                      <a href="mailto:info@enlightenvibes.com" className="hover:text-[#b8860b] transition-colors">
-                        info@enlightenvibes.com
-                      </a>
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      <a href="mailto:hello@enlightenvibes.com" className="hover:text-[#b8860b] transition-colors">
-                        hello@enlightenvibes.com
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Working Hours */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#b8860b]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-5 h-5 text-[#b8860b]" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Working Hours</h3>
-                    <p className="text-sm text-gray-600">
-                      Sunday - Thursday<br />
-                      9:00 AM - 6:00 PM
-                    </p>
-                  </div>
-                </div>
+              {/* Social Icons */}
+              <div className="flex items-center justify-center gap-3 pt-2">
+                <a
+                  href="#"
+                  className="w-9 h-9 rounded-full bg-[#0077b5] flex items-center justify-center hover:opacity-80 transition-opacity"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-4 h-4 text-white" />
+                </a>
+                <a
+                  href="#"
+                  className="w-9 h-9 rounded-full bg-black flex items-center justify-center hover:opacity-80 transition-opacity border border-gray-600"
+                  aria-label="X"
+                >
+                  <span className="text-white text-sm font-bold">𝕏</span>
+                </a>
+                <a
+                  href="#"
+                  className="w-9 h-9 rounded-full bg-[#1877f2] flex items-center justify-center hover:opacity-80 transition-opacity"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="w-4 h-4 text-white" />
+                </a>
+                <a
+                  href="#"
+                  className="w-9 h-9 rounded-full bg-[#ff0000] flex items-center justify-center hover:opacity-80 transition-opacity"
+                  aria-label="YouTube"
+                >
+                  <Youtube className="w-4 h-4 text-white" />
+                </a>
               </div>
             </div>
 
-            {/* Contact Form */}
-            <div className="lg:col-span-2">
-              <div className="bg-white p-8 rounded-lg shadow-sm">
-                <h3 className="text-xl font-semibold text-gray-900 mb-6">Send us a Message</h3>
+            {/* Right - Contact Form */}
+            <div>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-4 py-3 bg-transparent border border-gray-500 text-white text-sm placeholder-gray-400 focus:outline-none focus:border-[#c4956a] transition-colors"
+                    placeholder="Name"
+                  />
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full px-4 py-3 bg-transparent border border-gray-500 text-white text-sm placeholder-gray-400 focus:outline-none focus:border-[#c4956a] transition-colors"
+                    placeholder="Email"
+                  />
+                </div>
 
-                {sent && (
-                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
-                    Thank you for your message! We&apos;ll get back to you soon.
-                  </div>
-                )}
+                <textarea
+                  required
+                  rows={6}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full px-4 py-3 bg-transparent border border-gray-500 text-white text-sm placeholder-gray-400 focus:outline-none focus:border-[#c4956a] transition-colors resize-none"
+                  placeholder="Message"
+                />
 
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    {/* Name */}
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                        Your Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#b8860b]/20 focus:border-[#b8860b] transition-colors"
-                        placeholder="John Doe"
-                      />
-                    </div>
-
-                    {/* Email */}
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#b8860b]/20 focus:border-[#b8860b] transition-colors"
-                        placeholder="john@example.com"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    {/* Phone */}
-                    <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#b8860b]/20 focus:border-[#b8860b] transition-colors"
-                        placeholder="+880 1700-000000"
-                      />
-                    </div>
-
-                    {/* Subject */}
-                    <div>
-                      <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                        Subject *
-                      </label>
-                      <input
-                        type="text"
-                        id="subject"
-                        required
-                        value={formData.subject}
-                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#b8860b]/20 focus:border-[#b8860b] transition-colors"
-                        placeholder="How can we help?"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                      Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      required
-                      rows={5}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#b8860b]/20 focus:border-[#b8860b] transition-colors resize-none"
-                      placeholder="Tell us about your project..."
-                    />
-                  </div>
-
-                  {/* Submit Button */}
+                <div className="flex justify-end">
                   <button
                     type="submit"
                     disabled={sending}
-                    className="w-full md:w-auto px-8 py-3 bg-[#b8860b] text-white font-medium rounded-lg hover:bg-[#9a7209] transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-70"
+                    className="px-8 py-2 border border-gray-400 text-white text-xs tracking-widest uppercase hover:bg-white hover:text-gray-900 transition-colors duration-300 disabled:opacity-70"
                   >
-                    {sending ? (
-                      "Sending..."
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4" />
-                        Send Message
-                      </>
-                    )}
+                    {sending ? "SENDING..." : "SEND"}
                   </button>
-                </form>
-              </div>
-            </div>
-          </div>
-
-          {/* Map */}
-          <div className="mt-12">
-            <div className="bg-white p-2 rounded-lg shadow-sm">
-              <iframe
-                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=Enlighten+Vibes,Dhaka,Bangladesh&zoom=17"
-                width="100%"
-                height="350"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="rounded-lg"
-                title="Enlighten Vibes Office Location"
-              />
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .gradient-text-animate {
+          background: linear-gradient(
+            90deg,
+            #2c2c2c,
+            #4a3728,
+            #8b6f4e,
+            #c4956a,
+            #8b6f4e,
+            #4a3728,
+            #2c2c2c,
+            #4a3728,
+            #8b6f4e,
+            #c4956a,
+            #8b6f4e,
+            #4a3728,
+            #2c2c2c
+          );
+          background-size: 200% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: gradient-shift 6s ease-in-out infinite alternate;
+        }
+        @keyframes gradient-shift {
+          0% { background-position: 0% center; }
+          100% { background-position: 100% center; }
+        }
+      `}</style>
     </section>
   );
 }

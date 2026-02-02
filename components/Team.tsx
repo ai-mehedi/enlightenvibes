@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { ChevronDown } from "lucide-react";
 
 interface TeamMember {
   id: number;
@@ -45,16 +46,16 @@ export default function Team() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section id="team" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4">
         {/* Heading */}
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-gray-900 mb-2 tracking-wide">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 tracking-wide gradient-text-animate">
           TEAM
         </h2>
 
         {/* Subtitle */}
-        <p className="text-center text-gray-500 tracking-widest text-xs mb-6">
-          WHO WE ARE
+        <p className="text-center tracking-widest text-xs mb-6 uppercase font-bold">
+          <span className="text-[#c4956a]">WHO</span> <span className="text-gray-500">WE ARE</span>
         </p>
 
         {/* Description */}
@@ -103,20 +104,53 @@ export default function Team() {
               ))}
             </div>
 
-            {/* See More Button */}
+            {/* See More */}
             {hasMore && (
-              <div className="text-center mt-12">
+              <div className="flex items-center max-w-4xl mx-auto mt-12">
+                <div className="flex-1 h-px bg-gray-300" />
                 <button
                   onClick={handleSeeMore}
-                  className="px-8 py-3 border-2 border-gray-800 text-gray-800 text-sm uppercase tracking-wider hover:bg-gray-800 hover:text-white transition-colors duration-300"
+                  className="px-6 flex items-center gap-2 text-sm text-gray-600 tracking-widest hover:text-gray-900 transition-colors duration-300 cursor-pointer"
                 >
                   See More
+                  <ChevronDown className="w-4 h-4" />
                 </button>
+                <div className="flex-1 h-px bg-gray-300" />
               </div>
             )}
           </>
         )}
       </div>
+
+      <style jsx>{`
+        .gradient-text-animate {
+          background: linear-gradient(
+            90deg,
+            #2c2c2c,
+            #4a3728,
+            #8b6f4e,
+            #c4956a,
+            #8b6f4e,
+            #4a3728,
+            #2c2c2c,
+            #4a3728,
+            #8b6f4e,
+            #c4956a,
+            #8b6f4e,
+            #4a3728,
+            #2c2c2c
+          );
+          background-size: 200% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: gradient-shift 6s ease-in-out infinite alternate;
+        }
+        @keyframes gradient-shift {
+          0% { background-position: 0% center; }
+          100% { background-position: 100% center; }
+        }
+      `}</style>
     </section>
   );
 }

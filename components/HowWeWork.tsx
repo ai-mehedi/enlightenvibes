@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Eye, ThumbsUp, Send, FlaskConical } from "lucide-react";
 
 export default function HowWeWork() {
@@ -31,22 +32,24 @@ export default function HowWeWork() {
   ];
 
   return (
-    <section
-      className="py-8 md:py-16 relative"
-      style={{
-        backgroundImage: "url('/hero/1768817084619-Hero_Section_04.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
-    >
+    <section className="py-8 md:py-16 relative overflow-hidden">
+      {/* Background Image */}
+      <Image
+        src="/how-we-workbg.png"
+        alt="How we work background"
+        fill
+        className="object-cover"
+        sizes="100vw"
+        quality={100}
+      />
+
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/60" />
+      <div className="absolute inset-0 bg-black/80" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Heading */}
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white mb-6 tracking-wide">
-          HOW WE WORK
+          <span className="text-[#d78653]">HOW</span> WE WORK
         </h2>
 
         {/* Description */}

@@ -116,10 +116,19 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    color-scheme: light;
+  }
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-family: var(--font-poppins), sans-serif;
+  }
+  .font-anton {
+    font-family: var(--font-anton), sans-serif;
   }
 }

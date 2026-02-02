@@ -73,17 +73,17 @@ export default function OurWork() {
   };
 
   return (
-    <section id="work" className="py-16 md:py-24 bg-white">
+    <section id="work" className="pt-16 md:pt-16 bg-white">
+      {/* Heading & Filter - centered */}
       <div className="container mx-auto px-4">
         {/* Heading */}
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 tracking-wide">
-          <span className="text-gray-900">OUR </span>
-          <span className="text-[#b8860b]">WORK</span>
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 tracking-wide gradient-text-animate">
+          OUR WORK
         </h2>
 
         {/* Subtitle */}
-        <p className="text-center text-gray-500 tracking-widest text-xs mb-10">
-          A GLIMPSE OF OUR RECENT PROJECTS
+        <p className="text-center tracking-widest text-xs mb-10 uppercase font-bold">
+          <span className="text-[#c4956a]">A GLIMPSE</span> <span className="text-gray-500">OF OUR RECENT PROJECTS</span>
         </p>
 
         {/* Category Filter */}
@@ -102,15 +102,16 @@ export default function OurWork() {
             </button>
           ))}
         </div>
+      </div>
 
-        {/* Projects Grid */}
-        {loading ? (
-          <div className="text-center py-8">Loading projects...</div>
-        ) : filteredProjects.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">No projects found.</div>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-1 container mx-auto">
-            {filteredProjects.map((project) => (
+      {/* Projects Grid - full width */}
+      {loading ? (
+        <div className="text-center py-8">Loading projects...</div>
+      ) : filteredProjects.length === 0 ? (
+        <div className="text-center py-8 text-gray-500">No projects found.</div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-4 ">
+          {filteredProjects.map((project) => (
               <div
                 key={project.id}
                 onClick={() => openModal(project)}
@@ -148,7 +149,6 @@ export default function OurWork() {
             ))}
           </div>
         )}
-      </div>
 
       {/* Modal */}
       {selectedProject && (
@@ -230,6 +230,36 @@ export default function OurWork() {
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        .gradient-text-animate {
+          background: linear-gradient(
+            90deg,
+            #2c2c2c,
+            #4a3728,
+            #8b6f4e,
+            #c4956a,
+            #8b6f4e,
+            #4a3728,
+            #2c2c2c,
+            #4a3728,
+            #8b6f4e,
+            #c4956a,
+            #8b6f4e,
+            #4a3728,
+            #2c2c2c
+          );
+          background-size: 200% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: gradient-shift 6s ease-in-out infinite alternate;
+        }
+        @keyframes gradient-shift {
+          0% { background-position: 0% center; }
+          100% { background-position: 100% center; }
+        }
+      `}</style>
     </section>
   );
 }
