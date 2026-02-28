@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,11 +22,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Plus, Pencil, Trash2, LogOut, Upload, Eye, EyeOff } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Eye, EyeOff } from "lucide-react";
 import type { HeroImage } from "@/lib/db/schema";
 
 export default function HeroImagesManager() {
-  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<HeroImage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -55,11 +53,6 @@ export default function HeroImagesManager() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleLogout = async () => {
-    await fetch("/api/admin/logout", { method: "POST" });
-    router.push("/admin/login");
   };
 
   const openCreateDialog = () => {
@@ -164,27 +157,8 @@ export default function HeroImagesManager() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={() => router.push("/admin")}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
-            </Button>
-            <h1 className="text-xl font-semibold">Manage Hero Images</h1>
-          </div>
-          <Button variant="outline" size="sm" onClick={handleLogout}>
-            <LogOut className="h-4 w-4 mr-2" />
-            Logout
-          </Button>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <Card>
+    <div>
+      <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Hero Background Images</CardTitle>
             <Button onClick={openCreateDialog}>
@@ -269,7 +243,6 @@ export default function HeroImagesManager() {
             )}
           </CardContent>
         </Card>
-      </main>
 
       {/* Create/Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

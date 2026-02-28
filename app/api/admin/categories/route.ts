@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { teamMembers } from "@/lib/db/schema";
+import { categories } from "@/lib/db/schema";
 import { asc } from "drizzle-orm";
 import { getAdminSession } from "@/lib/auth";
 
-// GET all team members (admin)
+// GET all categories (admin)
 export async function GET() {
   const session = await getAdminSession();
   if (!session) {
@@ -12,18 +12,18 @@ export async function GET() {
   }
 
   try {
-    const members = await db
+    const allCategories = await db
       .select()
-      .from(teamMembers)
-      .orderBy(asc(teamMembers.order));
-    return NextResponse.json(members);
+      .from(categories)
+      .orderBy(asc(categories.order));
+    return NextResponse.json(allCategories);
   } catch (error) {
-    console.error("Error fetching team members:", error);
-    return NextResponse.json({ error: "Failed to fetch team members" }, { status: 500 });
+    console.error("Error fetching categories:", error);
+    return NextResponse.json({ error: "Failed to fetch categories" }, { status: 500 });
   }
 }
 
-// POST create new team member
+// POST create new category
 export async function POST(request: Request) {
   const session = await getAdminSession();
   if (!session) {
@@ -32,21 +32,17 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { name, role, description, email, image, order, active } = body;
+    const { name, order, active } = body;
 
-    const result = await db.insert(teamMembers).values({
+    const result = await db.insert(categories).values({
       name,
-      role,
-      description,
-      email: email || null,
-      image: image || null,
       order: order || 0,
       active: active !== undefined ? active : true,
     });
 
     return NextResponse.json({ success: true, id: result.lastInsertRowid });
   } catch (error) {
-    console.error("Error creating team member:", error);
-    return NextResponse.json({ error: "Failed to create team member" }, { status: 500 });
+    console.error("Error creating category:", error);
+    return NextResponse.json({ error: "Failed to create category" }, { status: 500 });
   }
 }

@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { teamMembers } from "@/lib/db/schema";
+import { categories } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { getAdminSession } from "@/lib/auth";
 
-// PUT update team member
+// PUT update category
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -17,30 +17,26 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { name, role, description, email, image, order, active } = body;
+    const { name, order, active } = body;
 
     await db
-      .update(teamMembers)
+      .update(categories)
       .set({
         name,
-        role,
-        description,
-        email: email || null,
-        image: image || null,
         order,
         active,
         updatedAt: new Date(),
       })
-      .where(eq(teamMembers.id, parseInt(id)));
+      .where(eq(categories.id, parseInt(id)));
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error updating team member:", error);
-    return NextResponse.json({ error: "Failed to update team member" }, { status: 500 });
+    console.error("Error updating category:", error);
+    return NextResponse.json({ error: "Failed to update category" }, { status: 500 });
   }
 }
 
-// DELETE team member
+// DELETE category
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -52,10 +48,10 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    await db.delete(teamMembers).where(eq(teamMembers.id, parseInt(id)));
+    await db.delete(categories).where(eq(categories.id, parseInt(id)));
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting team member:", error);
-    return NextResponse.json({ error: "Failed to delete team member" }, { status: 500 });
+    console.error("Error deleting category:", error);
+    return NextResponse.json({ error: "Failed to delete category" }, { status: 500 });
   }
 }

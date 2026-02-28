@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/auth";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+import sizeOf from "image-size";
 
 export async function POST(request: Request) {
   const session = await getAdminSession();
@@ -42,10 +43,23 @@ export async function POST(request: Request) {
     // Return the public URL path
     const publicPath = `/${folder}/${filename}`;
 
+    // Get image dimensions
+    let width = 0;
+    let height = 0;
+    try {
+      const dimensions = sizeOf(buffer);
+      width = dimensions.width || 0;
+      height = dimensions.height || 0;
+    } catch {
+      // ignore dimension errors for non-image files
+    }
+
     return NextResponse.json({
       success: true,
       path: publicPath,
-      filename
+      filename,
+      width,
+      height,
     });
   } catch (error) {
     console.error("Upload error:", error);

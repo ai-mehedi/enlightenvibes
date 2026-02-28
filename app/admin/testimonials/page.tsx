@@ -1,13 +1,5 @@
-import { redirect } from "next/navigation";
-import { getAdminSession } from "@/lib/auth";
 import TestimonialsManager from "@/components/admin/TestimonialsManager";
 
-export default async function TestimonialsPage() {
-  const session = await getAdminSession();
-
-  if (!session) {
-    redirect("/admin/login");
-  }
-
+export default function TestimonialsPage() {
   return <TestimonialsManager />;
 }

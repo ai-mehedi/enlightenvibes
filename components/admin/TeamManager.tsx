@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,11 +22,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Plus, Pencil, Trash2, LogOut, Upload, Eye, EyeOff } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Eye, EyeOff } from "lucide-react";
 import type { TeamMember } from "@/lib/db/schema";
 
 export default function TeamManager() {
-  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,6 +37,7 @@ export default function TeamManager() {
     name: "",
     role: "",
     description: "",
+    email: "",
     image: "",
     order: 0,
     active: true,
@@ -64,17 +63,13 @@ export default function TeamManager() {
     }
   };
 
-  const handleLogout = async () => {
-    await fetch("/api/admin/logout", { method: "POST" });
-    router.push("/admin/login");
-  };
-
   const openCreateDialog = () => {
     setEditingMember(null);
     setFormData({
       name: "",
       role: "",
       description: "",
+      email: "",
       image: "",
       order: members.length,
       active: true,
@@ -88,6 +83,7 @@ export default function TeamManager() {
       name: member.name,
       role: member.role,
       description: member.description,
+      email: member.email || "",
       image: member.image || "",
       order: member.order,
       active: member.active,
@@ -185,27 +181,8 @@ export default function TeamManager() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={() => router.push("/admin")}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
-            </Button>
-            <h1 className="text-xl font-semibold">Manage Team Members</h1>
-          </div>
-          <Button variant="outline" size="sm" onClick={handleLogout}>
-            <LogOut className="h-4 w-4 mr-2" />
-            Logout
-          </Button>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <Card>
+    <div>
+      <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Team Members</CardTitle>
             <Button onClick={openCreateDialog}>
@@ -296,7 +273,6 @@ export default function TeamManager() {
             )}
           </CardContent>
         </Card>
-      </main>
 
       {/* Create/Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -338,6 +314,16 @@ export default function TeamManager() {
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 placeholder="Brief description about the team member..."
                 className="w-full min-h-[100px] px-3 py-2 border border-gray-300 rounded-md text-sm"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="john@example.com"
               />
             </div>
             <div className="space-y-2">

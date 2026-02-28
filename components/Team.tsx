@@ -9,6 +9,7 @@ interface TeamMember {
   name: string;
   role: string;
   description: string;
+  email: string | null;
   image: string | null;
   order: number;
 }
@@ -74,7 +75,7 @@ export default function Team() {
               {visibleMembers.map((member) => (
                 <div key={member.id} className="text-center">
                   {/* Image */}
-                  <div className="aspect-[3/4] bg-[#2d3a2d] mb-4 relative overflow-hidden">
+                  <div className="aspect-[3/4] bg-[#2d3a2d] mb-4 relative overflow-hidden group">
                     {member.image ? (
                       <Image
                         src={member.image}
@@ -86,6 +87,16 @@ export default function Team() {
                     ) : (
                       <div className="w-full h-full bg-[#2d3a2d]" />
                     )}
+
+                    {/* Hover overlay — slides up from bottom */}
+                    <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out bg-gradient-to-t from-black/90 via-black/70 to-transparent p-4 pt-12">
+                      <p className="text-xs text-white/90 leading-relaxed line-clamp-5">
+                        {member.description}
+                      </p>
+                      {member.email && (
+                        <p className="text-xs text-[#c4956a] mt-3">{member.email}</p>
+                      )}
+                    </div>
                   </div>
 
                   {/* Name */}
@@ -94,12 +105,7 @@ export default function Team() {
                   </h3>
 
                   {/* Role */}
-                  <p className="text-xs text-gray-500 mb-3">{member.role}</p>
-
-                  {/* Description */}
-                  <p className="text-xs text-gray-600 leading-relaxed">
-                    {member.description}
-                  </p>
+                  <p className="text-xs text-gray-500">{member.role}</p>
                 </div>
               ))}
             </div>

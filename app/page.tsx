@@ -1,3 +1,4 @@
+import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import MajorClients from '@/components/MajorClients'
 import About from '@/components/About'
@@ -18,6 +19,7 @@ import React from 'react'
 export default function page() {
   return (
     <div>
+      <Header />
       <Hero />
    <div
   className="min-h-screen bg-no-repeat bg-center bg-cover"
