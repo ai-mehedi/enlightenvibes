@@ -38,6 +38,7 @@ export default function OurWork() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [modalImageIndex, setModalImageIndex] = useState(0);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -113,6 +114,7 @@ export default function OurWork() {
 
   const openModal = (project: Project) => {
     setSelectedProject(project);
+    setModalImageIndex(0);
     document.body.style.overflow = "hidden";
   };
 
@@ -127,6 +129,7 @@ export default function OurWork() {
     const idx = allImgs.indexOf(image);
     setLightboxImage(image);
     setLightboxIndex(idx >= 0 ? idx : 0);
+    setModalImageIndex(idx >= 0 ? idx : 0);
   };
 
   const navigateLightbox = (direction: "prev" | "next") => {
@@ -139,6 +142,7 @@ export default function OurWork() {
     if (newIndex >= allImgs.length) newIndex = 0;
     setLightboxIndex(newIndex);
     setLightboxImage(allImgs[newIndex]);
+    setModalImageIndex(newIndex);
   };
 
   return (
@@ -160,11 +164,10 @@ export default function OurWork() {
           <div className="flex flex-wrap justify-center gap-2">
             <button
               onClick={() => setActiveCategory(null)}
-              className={`px-4 py-2 text-xs font-bold tracking-widest uppercase transition-colors ${
-                activeCategory === null
-                  ? "bg-[#c4956a] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
+              className={`px-4 py-2 text-xs font-bold tracking-widest uppercase transition-colors ${activeCategory === null
+                ? "bg-[#c4956a] text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
             >
               ALL
             </button>
@@ -172,11 +175,10 @@ export default function OurWork() {
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-2 text-xs font-bold tracking-widest uppercase transition-colors ${
-                  activeCategory === cat.id
-                    ? "bg-[#c4956a] text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
+                className={`px-4 py-2 text-xs font-bold tracking-widest uppercase transition-colors ${activeCategory === cat.id
+                  ? "bg-[#c4956a] text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
               >
                 {cat.name}
               </button>
@@ -262,62 +264,102 @@ export default function OurWork() {
 
             {/* Modal Content */}
             <div className="p-4">
-              {/* Main Image */}
-              {getCoverImage(selectedProject) && (
-                <div
-                  className="w-full mb-4 cursor-pointer"
-                  onClick={() =>
-                    openLightbox(
-                      getCoverImage(selectedProject)!,
-                      selectedProject
-                    )
-                  }
-                >
-                  <Image
-                    src={getCoverImage(selectedProject)!}
-                    alt={selectedProject.title}
-                    width={800}
-                    height={600}
-                    className="w-full h-auto rounded-lg"
-                    sizes="800px"
-                  />
+              {/* Image Slider */}
+              {selectedProject && getAllImages(selectedProject).length > 0 && (
+                <div className="mb-6">
+                  {/* Main Sliding Image */}
+                  <div className="relative w-full rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center group">
+                    <div
+                      className="w-full cursor-pointer"
+                      onClick={() =>
+                        openLightbox(
+                          getAllImages(selectedProject)[modalImageIndex],
+                          selectedProject
+                        )
+                      }
+                    >
+                      <Image
+                        src={getAllImages(selectedProject)[modalImageIndex]}
+                        alt={selectedProject.title}
+                        width={1200}
+                        height={800}
+                        className="w-full h-auto max-h-[70vh] object-contain rounded-lg transition-all duration-300"
+                        sizes="(max-width: 1200px) 100vw, 1200px"
+                        priority
+                      />
+                    </div>
+
+                    {/* Navigation Arrows */}
+                    {getAllImages(selectedProject).length > 1 && (
+                      <>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setModalImageIndex((prev) =>
+                              prev === 0
+                                ? getAllImages(selectedProject).length - 1
+                                : prev - 1
+                            );
+                          }}
+                          className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-black/40 text-white p-2 md:p-3 hover:bg-black/70 rounded-full transition-all z-10 shadow-md"
+                        >
+                          <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setModalImageIndex((prev) =>
+                              prev === getAllImages(selectedProject).length - 1
+                                ? 0
+                                : prev + 1
+                            );
+                          }}
+                          className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-black/40 text-white p-2 md:p-3 hover:bg-black/70 rounded-full transition-all z-10 shadow-md"
+                        >
+                          <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                        </button>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Thumbnails (Bottom Reference Image Bar) */}
+                  {getAllImages(selectedProject).length > 1 && (
+                    <div className="flex gap-2 mt-4 overflow-x-auto pb-4 snap-x [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:bg-[#c4956a] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100">
+                      {getAllImages(selectedProject).map((img, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setModalImageIndex(idx)}
+                          className={`relative flex-shrink-0 snap-start w-20 h-20 md:w-24 md:h-24 rounded-md overflow-hidden transition-all duration-200 ${modalImageIndex === idx
+                            ? "ring-2 ring-[#c4956a] opacity-100 scale-[0.98]"
+                            : "opacity-60 hover:opacity-100"
+                            }`}
+                        >
+                          <Image
+                            src={img}
+                            alt={`Thumbnail ${idx + 1}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 80px, 96px"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
               {/* Video Embed */}
-              {selectedProject.videoUrl && (
-                <div className="aspect-video w-full mb-4">
+              {selectedProject && selectedProject.videoUrl && (
+                <div className="aspect-video w-full mb-6 relative z-0">
                   <iframe
-                    src={`https://www.youtube.com/embed/${getYouTubeId(selectedProject.videoUrl)}`}
+                    src={`https://www.youtube.com/embed/${getYouTubeId(
+                      selectedProject.videoUrl
+                    )}`}
                     title={selectedProject.title}
-                    className="w-full h-full rounded-lg"
+                    className="w-full h-full rounded-lg shadow-sm"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
-                </div>
-              )}
-
-              {/* Gallery Images */}
-              {getGalleryImages(selectedProject).length > 0 && (
-                <div className="columns-2 md:columns-3 gap-2 mb-4">
-                  {getGalleryImages(selectedProject).map((img) => (
-                    <div
-                      key={img.id}
-                      className="mb-2 break-inside-avoid rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
-                      onClick={() =>
-                        openLightbox(img.image, selectedProject)
-                      }
-                    >
-                      <Image
-                        src={img.image}
-                        alt=""
-                        width={400}
-                        height={400}
-                        className="w-full h-auto block"
-                        sizes="250px"
-                      />
-                    </div>
-                  ))}
                 </div>
               )}
 
