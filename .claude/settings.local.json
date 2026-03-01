@@ -16,7 +16,10 @@
       "Bash(npm run dev:*)",
       "Bash(timeout /t 10 /nobreak)",
       "Bash(ping:*)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(npm run:*)",
+      "Bash(npx next:*)",
+      "Bash(npx drizzle-kit:*)"
     ]
   }
 }
